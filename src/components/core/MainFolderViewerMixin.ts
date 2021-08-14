@@ -1,12 +1,14 @@
-import { Component, Prop, Vue,  } from 'vue-property-decorator';
+import { Prop, Vue,  } from 'vue-property-decorator';
+import Component, {mixins} from 'vue-class-component'
 import ItemInFolder from './ItemInFolder';
 
 @Component({
 })
 export default class MainFolderViewer extends Vue {
-    @Prop() public content: Array<ItemInFolder> = [];
-    @Prop() public defautlView: "grid"| "list" = "grid"
-    @Prop() public showViewOptions: boolean= true
+    @Prop({default:function(){return []}}) public content!: Array<ItemInFolder> ;
+    @Prop({default:"/"}) public route!: string ;
+    @Prop({default:"grid"}) public defautlView!: "grid"| "list" 
+    @Prop({default:true}) public showViewOptions!: boolean;
 
   
 }

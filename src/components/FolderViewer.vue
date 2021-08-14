@@ -1,13 +1,13 @@
 <template>
     <div class="folder-viewer">
         <Toolbar />
-        <AdaptableFolderViewer />
+        <AdaptableFolderViewer :content="content" :route="route" />
     </div>
 </template>
 
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import Component, {mixins} from 'vue-class-component'
 import AdaptableFolderViewer from "./core/AdaptableFolderViewer.vue"
 import Toolbar from "./core/Toolbar.vue"
 import MainFolderViewer from "./core/MainFolderViewerMixin"
@@ -17,7 +17,7 @@ import MainFolderViewer from "./core/MainFolderViewerMixin"
         AdaptableFolderViewer,Toolbar
     }
 })
-export default class FolderViewer extends MainFolderViewer {}
+export default class FolderViewer extends mixins( MainFolderViewer) {}
 </script>
 
 <style lang="scss">

@@ -1,20 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <FolderViewer />
+    <FolderViewer 
+      :content="contenido"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import ItemInFolder from './components/core/ItemInFolder';
 import FolderViewer from "./components/FolderViewer.vue"
+
+const contenido: Array<ItemInFolder> =[
+  {name:"Archivo 1"},
+  {name:"Carpeta 1",type:"folder",childrens:[
+    {name:"archivo2.txt"}
+  ]}
+]
 
 @Component({
   components: {
     FolderViewer
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  private contenido: Array<ItemInFolder> = contenido
+}
 </script>
 
 <style lang="scss">

@@ -6,10 +6,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import ItemInFolder from './ItemInFolder';
 
 @Component
 export default class AdaptableFolderViewer extends Vue {
-  @Prop() private content!: string;
+  @Prop({default:function(){return []}}) private content!: Array<ItemInFolder>;
+  @Prop({default:"/"}) public route!: string ;
 }
 </script>
 
