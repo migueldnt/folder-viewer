@@ -69,5 +69,6 @@ export default class AdaptableFolderViewer extends Vue {
         width: 100%;
         height: calc(100% - 2.5rem);
         padding: .5rem;
+        display: flex;
     }
 </style>
