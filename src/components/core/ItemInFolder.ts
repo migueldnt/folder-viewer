@@ -1,6 +1,6 @@
 type ItemInFolder = {
-    name: String;
-    id? : String;   //el id del elemento, por default es lo mismo que el nombre, 
+    name: string;
+    id? : string;   //el id del elemento, por default es lo mismo que el nombre, 
                     //si el usuario lo define, puede poner name="Nombre/raro", id="nombre_raro"
     type?: "item"|"folder";
     props?: Object;
@@ -17,9 +17,13 @@ type ItemInFolderOptions = {
 
 interface DepthItemInFolder extends ItemInFolder {
     lazyLoad: boolean ;
-    depthChildrens: Object;
+    depthChildrens: MappedListOfFolder;
+}
+
+type MappedListOfFolder = {
+    [key : string] :DepthItemInFolder
 }
 
 export default ItemInFolder
 
-export {ItemInFolderOptions,DepthItemInFolder}
+export {ItemInFolderOptions,DepthItemInFolder, MappedListOfFolder}

@@ -1,47 +1,73 @@
-import ItemInFolder, {DepthItemInFolder, ItemInFolderOptions} from "./ItemInFolder";
+import ItemInFolder, {DepthItemInFolder, MappedListOfFolder} from "./ItemInFolder";
 
 //const path = require('path')
 
-class Navegation{
-    private _content : Array<DepthItemInFolder> = [];
-    private _route : String ;
-    private _route_items : Array<String> = [] ;
+export default class Navegation{
+    private _content : MappedListOfFolder;
+    private _route  = "/" ;
+    private _route_items : Array<string> = [] ;
     private _current_dir : DepthItemInFolder| "root" = "root"
 
-    protected listenerOnChangeDir!:Function ;
+    protected listenerOnChangeDir!:CallbackOnChangeDir;
 
-    constructor(content:Array<ItemInFolder>,initial_route:String = "/"){
+    constructor(content:Array<ItemInFolder>,initial_route = "/"){
         this._content = Navegation.parseContent(content);
-        this._route = initial_route;
-        this.setInitialDir();
+        this.setArbitraryDir(initial_route);
     }
 
-    onChangeDir(callback:Function=()=>{}){
+    onChangeDir(callback:CallbackOnChangeDir):void{
         this.listenerOnChangeDir = callback
     }
 
-    public get route():String{
+    public get route():string{
         return this._route
     }
 
-    public set route(route:String){
+    public set route(route:string){
         this._route = route;
     }
 
-    public changeDir(){
-
+    public get currentDir():DepthItemInFolder | "root"{
+        return this._current_dir
+    }
+    
+    public get rootChildrens():MappedListOfFolder{
+        return this._content
     }
 
-    private setInitialDir(){
-        if(this.route === "/"){
+    
+    public changeDir(idItemAvailable:string):void{
+        const actualListFolder:MappedListOfFolder = this._current_dir ==="root" 
+            ? this._content 
+            : this._current_dir.depthChildrens;
+        if(idItemAvailable in actualListFolder && actualListFolder[idItemAvailable].type === "folder"){
+            //
+            this._current_dir = actualListFolder[idItemAvailable];
+            this._route_items.push(actualListFolder[idItemAvailable].id!)
+            this.route = "/"+this._route_items.join("/")
+            this.listenerOnChangeDir(this.route)
+        }
+        
+    }
+
+    private setArbitraryDir(route:string){
+        if(route === "/"){
             this._current_dir = "root";
+            this._route = "/";
+            this._route_items = []
             return
         }
-        let pathItems:Array<String> = this.route.split("/");
-        actual
-        pathItems.forEach(folder=>{
-            this._content.
-        })
+        const pathItems:Array<string> = this.route.split("/");
+        const route_items = pathItems.filter(pathitem=>pathitem!=='');
+        const route_new_value = "/"+this._route_items.join("/")
+        const matchItem = Navegation.getItemFromRoute(this._content,route_items)
+        if(matchItem === "root" || matchItem.type ==="folder"){
+            this._current_dir = matchItem;
+            this._route_items = route_items;
+            this._route = route_new_value;
+        }
+         
+        //console.log(this._current_dir)
     }
 
     /**
@@ -49,10 +75,10 @@ class Navegation{
      * @param content 
      * @returns 
      */
-    public static parseContent(content:Array<ItemInFolder> ): any {
+    public static parseContent(content:Array<ItemInFolder>,  ): MappedListOfFolder {
         //let content2:Array<DepthItemInFolder> = []
-        let content2:any = {}
-        let defaultItem: ItemInFolder = {
+        const content2:MappedListOfFolder = {}
+        const defaultItem: ItemInFolder = {
             name:"",
             id:"",
             type:"item",
@@ -66,28 +92,45 @@ class Navegation{
         }
 
         content.forEach(itemInFolder=>{
-            let parseditem:ItemInFolder = {...Object.assign(defaultItem,itemInFolder)}
+            const parseditem:ItemInFolder = {...Object.assign(defaultItem,itemInFolder)}
             parseditem.id = parseditem.id==="" || parseditem.id == undefined ?parseditem.name:parseditem.id
-            let islazy = typeof parseditem.options?.loadChildrens === "function"
-            let childrens  = parseditem.childrens;
+            const islazy = typeof parseditem.options?.loadChildrens === "function"
+            const childrens  = parseditem.childrens;
             parseditem.options = {...Object.assign(defaultItem.options,itemInFolder.options)}
             
-            let newChildrens:any = {}
+            let newChildrens:MappedListOfFolder = {}
             if(childrens && childrens.length>0){
                  newChildrens = Navegation.parseContent(childrens)
             }
-            let depthparseditem:DepthItemInFolder = { ...parseditem, lazyLoad: islazy, depthChildrens:newChildrens }
-            let id:string =<string> depthparseditem.id
+            const depthparseditem:DepthItemInFolder = { ...parseditem, lazyLoad: islazy, depthChildrens:newChildrens }
+            const id:string =<string> depthparseditem.id
             content2[id] = depthparseditem 
         })
         return content2
     }
 
+    public static getItemFromRoute(mappedListFolders:MappedListOfFolder,route:Array<string>):DepthItemInFolder | "root"{
+        //console.log("se obtendra un elemento a partir de la ruta")
+        //const pathItems:Array<string> = route.split("/");
+
+        let actualItem:DepthItemInFolder | "root" = "root";
+        let actualMappedList = {...mappedListFolders}
+        route.forEach(path=>{
+            actualItem = { ...actualMappedList[path]}
+            actualMappedList = {...actualItem.depthChildrens}
+        })
+        return actualItem;
+    }
     /**
      * A partir de la ruta en string se define el array de la ruta
      */
     private refreshRouteItems(){
-
+        console.log("se refrescara los elementos del araay de la ruta");
+        
     }
 
 }
+
+type CallbackOnChangeDir = (current_path:string) => void
+
+

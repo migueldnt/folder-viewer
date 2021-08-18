@@ -13,8 +13,14 @@ import FolderViewer from "./components/FolderViewer.vue"
 
 const contenido: Array<ItemInFolder> =[
   {name:"Archivo 1"},
-  {name:"Carpeta 1",type:"folder",childrens:[
+  {name:"Carpeta1",type:"folder",childrens:[
     {name:"archivo2.txt"}
+  ]},
+  {name:"Carpeta 2",type:"folder",childrens:[
+    {name:"carpeta3",type:"folder"},
+    {name:"carpeta4",type:"folder",childrens:[
+      {name:"archio.yuu"}
+    ]}
   ]}
 ]
 
