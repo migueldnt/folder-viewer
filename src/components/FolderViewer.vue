@@ -27,5 +27,14 @@ export default class FolderViewer extends mixins( MainFolderViewer) {}
     min-height: 300px;
     border-radius: 5px;
     box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02);
+    --fv-primary-bg-color: #fff;
+    --fv-secondary-bg-color: #e1f5fe; 
+    --fv-hover-bg-color: #c9eafa; //revisar o cambiar (el hover siempre cambiara el back , pero no el color)
+    --fv-primary-text-color: #000;
+    --fv-secondary-text-color: #1565c0; 
+    --fv-button-bg-color: #1565c0;
+    --fv-button-text-color: #fff;
+    line-height: 1.2;
+    font-size: 15px;
 }
 </style>

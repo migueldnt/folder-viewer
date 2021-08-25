@@ -1,7 +1,8 @@
 <template>
-    <div class="folder-viewer-body" >
+    <div class="folder-viewer-body" :class="viewAs" >
         <Item v-for="item in listItemsInCurrentDir" :key="item.id" 
         :depthItem="item" 
+        :displayAs="viewAs"
         @click.native="clickInItem(item)"
         />
     </div>
@@ -22,6 +23,7 @@ import Item from "./Item.vue"
 export default class AdaptableFolderViewer extends Vue {
   @Prop({default:function(){return []}}) private content!: Array<ItemInFolder>;
   @Prop({default:"/"}) public route!: string ;
+  @Prop({default:"grid"}) public viewAs!: "grid"|"list"
   
   
 
@@ -64,11 +66,19 @@ export default class AdaptableFolderViewer extends Vue {
 <style lang="scss">
     .folder-viewer-body{
         position: absolute;
-        top: 2.5rem;
+        top: 2.5em;
         left: 0px;
         width: 100%;
-        height: calc(100% - 2.5rem);
-        padding: .5rem;
-        display: flex;
+        height: calc(100% - 2.5em);
+        cursor: pointer;
+        display: grid;
+        //background-color: var(--fv-primary-bg-color);
+        overflow-y: auto;
+        &.grid{
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            //grid-template-rows: repeat(auto-fill, 100px);
+            grid-gap: 5px;
+            //padding: 1rem .5rem;
+        }
     }
 </style>

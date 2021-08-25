@@ -4,7 +4,7 @@ type ItemInFolder = {
                     //si el usuario lo define, puede poner name="Nombre/raro", id="nombre_raro"
     type?: "item"|"folder";
     props?: Object;
-    icon?:  String;
+    icon?:  string;
     childrens?: Array<ItemInFolder> ;
     options?: ItemInFolderOptions;
     

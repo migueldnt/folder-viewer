@@ -29,9 +29,9 @@ export default Vue.extend({
         top: 0px;
         left: 0px;
         width: 100%;
-        min-height: 2.5rem;
-        background-color: #e1f5fe;
-        
+        min-height: 2.5em;
+        background-color: var(--fv-secondary-bg-color);
+        color: var(--fv-secondary-text-color);
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -43,12 +43,12 @@ export default Vue.extend({
             display: flex;
             flex-direction: row;
             align-items: center;
-            padding-right: .5rem;
+            padding-right: .5em;
 
             button{
-                margin-left: 0.25rem;
-                height: 1.8rem;
-                width: 1.8rem;
+                margin-left: 0.25em;
+                height: 1.8em;
+                width: 1.8em;
                 border: none;
                 background-color: #1565c0;
                 color: white;
@@ -65,7 +65,7 @@ export default Vue.extend({
             flex-grow: 9;
             display: flex;
             align-items: center;
-            padding-left: .5rem;
+            padding-left: .5em;
             span.icon{
                 line-height: 1;
             }
@@ -74,7 +74,7 @@ export default Vue.extend({
                 padding: 0 3px 0 3px;
                 margin: 0 -3px 0 -3px;
                 &:hover{
-                    background-color: white;
+                    background-color: var(--fv-hover-bg-color);
                     border-radius: 3px;
                 }
             }
